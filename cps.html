@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html lang="ch" id="leekoh">
+<head>
+<script type="text/javascript" src="js/CPS.js"></script>
+<title>春夏之梦在线CPS测试_鼠标点击速度测试_MineCraft</title>
+<body ondragstart="window.event.returnValue=false" oncontextmenu="window.event.returnValue=false" onselectstart="event.returnValue=false">
+</head>
+<style>
+	.cps-container {
+		background-color: #f4f4f4;
+		font-family: Microsoft Yahei;
+		font-weight: 300;
+		font-size: 24px;
+		overflow: auto;
+		width: 90%;
+		margin: auto;
+		margin-top: 2px;
+		overflow-y: hidden;
+	}
+
+	.public-header {
+		background: #333333;
+		height: 50px;
+	}
+
+	.public-container {
+		width: 90%;
+		margin: auto;
+	}
+
+
+
+	.cps-test {
+		padding-top: 100px;
+		position: relative;
+		width: 65%;
+		margin: auto;
+	}
+
+	#reset,
+	#clicker {
+		margin: auto;
+		margin-top: 30px;
+	}
+
+	button {
+		font-family: Microsoft Yahei;
+		font-size: 20px;
+		font-weight: bold;
+	}
+
+	h3 {
+		color: #bd1a16;
+	}
+
+	li {
+		font-size: 20px;
+		line-height: 35px;
+	}
+
+	.rules {
+		margin-top: 35px;
+	}
+
+	.footer {
+		background-color: #fff;
+		width: 90%;
+		height: 75px;
+		margin: auto;
+		padding-top: 15px;
+	}
+
+	.my-text {
+		color: #4c4c4c;
+		font-size: 10px;
+		line-height: 25px;
+	}
+</style>
+<body>
+<nav>
+<div class="cps-container">
+<div class="cps-test" style="text-align: center">
+<h3>得分: <span id="clicks">在测试完成后展示</span></h3>
+<button id="clicker" type="button" style="width: 100%; height: 200px; display: none;">点我</button>
+<button id="reset" type="button" style="">
+重新测试
+</button>
+<h3 id="countdown"></h3>
+<div class="rules">
+<ul>
+<li>测试模式时，当你第一次点击，计时开始；</li>
+<li>为了准确测试，将取你10秒内连续点击的平均值；</li>
+<li>测试结束后展示的结果就是你的最终成绩；</li>
+<li>本网站由春夏之梦运营组提供技术支持！</li>
+</ul>
+</div>
+</div>
+</div>
+</nav>
+</body>
+</html>
+<script type="text/javascript">
+	$(function () {
+		var start;
+		var countdown;
+		var clicks = 0;
+		var active = false;
+		$("#clicker").on("mousedown", function (e) {
+			if (e.which == 1) {
+				if (!active) {
+					start = $.now();
+					active = true;
+					countdown = setInterval(function () { timer() }, 57);
+					clicks = 0;
+				}
+				$(this).blur();
+				clicks++;
+				$('#clicks').html(clicks);
+			}
+		});
+
+		$("#reset").click(function () {
+			if (!active) {
+				$('#reset').hide();
+				$('#clicker').show();
+				$('.progress').show();
+				clicks = 0;
+				$('#clicks').html(clicks);
+				clearInterval(countdown);
+			}
+		});
+
+		function timer() {
+			if (($.now() - start) > 10000) {
+				$('#clicker').hide();
+				$('.countdown').hide();
+				$('#countdown').html('');
+				$('#reset').show();
+				$('#clicks').html((clicks / 10) + ' CPS');
+				active = false;
+				clearInterval(countdown);
+				document.getElementById("clicker").innerHTML = '点我';
+				return;
+			}
+			var t = (start - $.now()) / 1000
+			$('#countdown').html(Math.abs(t));
+		}
+	});
+</script>
